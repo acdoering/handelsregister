@@ -34,7 +34,7 @@ options.add_experimental_option("prefs", {
     "download.default_directory": os.getcwd(),
     "download.directory_upgrade": True})
 
-options.headless = True
+options.headless = False # True
 
 driver = webdriver.Chrome(options=options)
 
@@ -46,14 +46,15 @@ driver.set_window_size(1920, 1080)
 driver.get("https://www.handelsregister.de")
 
 
-link = driver.find_element(By.LINK_TEXT, "Advanced search")
+link = driver.find_element(By.LINK_TEXT, "Erweiterte Suche") # Advanced Search
 link.click()
 
 print(driver.title)
 
 company_textarea = driver.find_element(
     By.XPATH, "//textarea[@id='form:schlagwoerter']"
-).send_keys("Gasag AG")
+)
+company_textarea.send_keys("Gasag AG")
 
 exact_radio = driver.find_element(By.XPATH, "//label[@for='form:schlagwortOptionen:2']")
 exact_radio.click()
@@ -62,7 +63,7 @@ print(exact_radio)
 
 
 search_button = driver.find_element(By.XPATH, "//button[@id='form:btnSuche']")
-search_button.click()
+driver.execute_script("arguments[0].click();", search_button)
 
 document_list = ['AD',
     'CD',
